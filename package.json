@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express": "git://github.com/expressjs/express.git#5.0.0-alpha.7",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

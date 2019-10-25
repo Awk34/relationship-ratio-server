@@ -1,0 +1,23 @@
+{"users":[{
+  "email": "koroluka@gmail.com",
+  "partner": "ana.gabriel2012@gmail.com",
+  "password": "1234",
+  "salt": "1234",
+  "interactions": [{
+    "good": true,
+    "date": 1571989095043,
+    "from": "ana.gabriel2012@gmail.com",
+    "description": "did a thing"
+  }]
+}, {
+  "email": "ana.gabriel2012@gmail.com",
+  "partner": "koroluka@gmail.com",
+  "password": "1234",
+  "salt": "1234",
+  "interactions":  [{
+    "good": true,
+    "date": 1571989095044,
+    "from": "koroluka@gmail.com",
+    "description":  "did a thing"
+  }]
+}]}

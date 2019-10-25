@@ -16,5 +16,10 @@
   "password": "1234",
   "salt": "1234",
   "love-language": "0",
-  "interactions":  ["<file name>"]
+  "interactions":  [{
+    "good": true,
+    "date": 1571989095043,
+    "from": "koroluka@gmail.com",
+    "description": "did a thing"
+  }]
 }]}

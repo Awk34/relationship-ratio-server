@@ -97,7 +97,7 @@ response = {
   }
 }
 
-GET '/:user_id'
+GET '/:email'
 request = { }
 
 response = {

@@ -97,6 +97,14 @@ response = {
   }
 }
 
+GET '/:user_id'
+request = { }
+
+response = {
+  success: true,
+  result: '<Language>'
+}
+
 GET '/:user_id/:partner'
 request = { }
 

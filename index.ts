@@ -2,6 +2,7 @@ import express, {Request, Response, Router} from 'express';
 import {interactionRouter, init as interactionInit} from './routes/interaction';
 import {userRouter, init as userInit} from './routes/user';
 import {createDb} from './db';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
 const PORT = process.env.PORT || process.env.NODE_ENV === 'production' ? '80' : '8080';
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || process.env.NODE_ENV === 'production' ? '80' : 
 const app = express();
 
 app.use(cookieParser());
+app.use(bodyParser());
 
 app.get('/', (req: Request, res: Response) => {
     res.send('hello world');

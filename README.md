@@ -28,22 +28,25 @@ const interaction = {
   'date': new Date(),
   'description': 'good action/behavior that made me happy',
 };
+```
 
-// contained in user@domain.com's file named 123456789.json
-// this file is basically a stack or interactions from other users submitted
+contained in user@domain.com's file named 123456789.json
+
+this file is basically a stack or interactions from other users submitted
+```json
 {
-  'interactions': {
-    'partner@domain.com': [interaction]
+  "interactions": {
+    "partner@domain.com": [interaction]
   },
-  'blocked': [
-    'blocked@domain.com'
+  "blocked": [
+    "blocked@domain.com"
   ]
 }
 ```
 
 ## API
 
-POST '/create'
+POST `/user/signup`
 ```javascript
 request = {
   email: 'email@domain.com',
@@ -53,7 +56,7 @@ request = {
 response = {
   success: !!user_id,
   result: (user_id && {
-    user_id: 'id',
+    id: 'id',
     token: '<JWT>',
     partner: 'partner@domain.com'
   }) || {
@@ -62,26 +65,27 @@ response = {
 }
 ```
 
-POST '/update'
+POST `/user/update`
 ```javascript
 request = {
   token: '<JWT>',
   partner: 'partner@domain.com',
-  'love-language': null || LoveLanguage
+  'love-language': LoveLanguage
 }
 
 response = {
-  success: !!user_id,
-  result: (user_id && {
-    user_id: 'id',
+  success: !!id,
+  result: (id && {
+    id: 'id',
     token: '<JWT>',
     partner: 'partner@domain.com'
   }) || {
     message: 'error message'
   }
 }
+```
 
-POST '/login'
+POST `/user/login`
 ```javascript
 request = {
   email: 'email@domain.com',
@@ -91,7 +95,7 @@ request = {
 response = {
   success: !!user_id,
   result: (user_id && {
-    user_id: 'id',
+    id: 'id',
     token: '<JWT>',
     partner: 'partner@domain.com'
   }) || {
@@ -100,7 +104,7 @@ response = {
 }
 ```
 
-GET '/:email'
+GET `/user/:email`
 ```javascript
 request = { }
 
@@ -110,17 +114,17 @@ response = {
 }
 ```
 
-GET '/:user_id/:partner'
+GET `/interaction/:user_id/:partner`
 ```javascript
 request = { }
 
 response = {
   success: true,
-  result: interactions[0]
+  result: interactions["today's date"]
 }
 ```
 
-GET '/:user_id/:partner?start=<date>&end=<date>'
+GET `/interaction/:user_id/:partner?start=<date>&end=<date>`
 ```javascript
 request = { }
 
@@ -130,7 +134,7 @@ response = {
 }
 ```
 
-POST '/:user_id/:partner'
+POST `/interaction/:user_id/:partner`
 ```javascript
 request = {
   token: '<JWT>',

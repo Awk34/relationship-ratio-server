@@ -54,60 +54,64 @@ export async function init() {
 
 export const userRouter = Router();
 
+function hashPassword(password: string, salt: string|Buffer): Promise<Buffer> {
+  return scrypt(password, salt, 64) as Promise<Buffer>;
+}
+
 userRouter.post('/login', async (req: e.Request, res: e.Response) => {
   const {email, password} = req.body;
 
   if(!email || !EMAIL_REGEX.test(email)) {
-    return res.status(400).send('Invalid email');
+    return res.status(400).send({success: false, result: {message: 'Invalid email'}});
   } else if(!password) {
-    return res.status(400).send('Invalid password');
+    return res.status(400).send({success: false, result: {message: 'Invalid password'}});
   } else if(password.length < 8) {
-    return res.status(400).send('Password must be 8+ characters');
+    return res.status(400).send({success: false, result: {message: 'Password must be 8+ characters'}});
   }
 
-  const user = await userCollection.findOne((user: User) => user.email === email).exec();
+  const user = await userCollection.findOne({email}).exec();
 
   if(!user) {
     return res.status(400).send('User not found');
   }
 
-  const hashedPassword = (await scrypt(password, user.salt, 64) as Buffer).toString('utf8');
+  const hashedPassword = (await hashPassword(password, user.salt)).toString('utf8');
 
   if(hashedPassword !== user.password) {
-    return res.status(400).send('Incorrect password');
+    return res.status(400).send({success: false, result: {message: 'Incorrect password'}});
   }
 
   const token = jwt.sign({id: user.id, email: user.email, love_language: user.love_language, partner: user.partner}, SIGNING_KEY);
 
-  return res.status(200).send(token);
+  return res.status(200).send({success: true, result: {id: user.id, partner: user.partner, token}});
 });
 
 userRouter.post('/signup', async (req: e.Request, res: e.Response) => {
   const {email, password, love_language, partner} = req.body;
 
   if(!email || !EMAIL_REGEX.test(email)) {
-    return res.status(400).send('Invalid email');
+    return res.status(400).send({success: false, result: {message: 'Invalid email'}});
   } else if(!password) {
-    return res.status(400).send('Invalid password');
+    return res.status(400).send({success: false, result: {message: 'Invalid password'}});
   } else if(password.length < 8) {
-    return res.status(400).send('Password must be 8+ characters');
-  } else if(await userCollection.findOne((user: User) => user.email === email).exec()) {
-    return res.status(400).send('Email address already registered');
+    return res.status(400).send({success: false, result: {message: 'Password must be 8+ characters'}});
+  } else if(await userCollection.findOne({email}).exec()) {
+    return res.status(400).send({success: false, result: {message: 'Email address already registered'}});
   }
 
-  const salt = nodeCrypto.randomBytes(16);
-  const hashedPassword = await scrypt(password, salt, 64) as Buffer;
+  const salt = nodeCrypto.randomBytes(16).toString('utf8');
+  const hashedPassword = await hashPassword(password, salt);
 
   const userDoc = await userCollection.insert({
     id: '',
     email,
     password: hashedPassword.toString('utf8'),
-    salt: salt.toString('utf8'),
+    salt: salt,
     love_language: love_language || LoveLanguage.UNSPECIFIED,
     partner: partner || '',
   });
 
   const token = jwt.sign({id: userDoc.id, email, love_language, partner}, SIGNING_KEY);
 
-  res.status(201).send(token);
+  res.status(201).send({success: true, result: {id: userDoc.id, partner: userDoc.partner, token}});
 });

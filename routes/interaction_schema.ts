@@ -7,15 +7,26 @@ export const interactionSchema: RxJsonSchema<Interaction> = {
   "description": "describes an interaction",
   "type": "object",
   "properties": {
-    "description": {
+    "id": {
       "type": "string",
       "primary": true
+    },
+    "description": {
+      "type": "string"
     },
     "good": {
       "type": "boolean"
     },
     "date": {
-      "type": "date"
+      "type": "number"
+    },
+    "user_id": {
+      "type": "string",
+      "index": true
+    },
+    "partner_id": {
+      "type": "string",
+      "index": true
     }
   },
   "required": ["good", "description", "date"]

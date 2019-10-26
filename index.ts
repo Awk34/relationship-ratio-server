@@ -15,10 +15,8 @@ app.use(bodyParser());
 app.get('/', (req: Request, res: Response) => {
     res.send('hello world');
 });
-console.log(Router);
 
 createDb().then(() => Promise.all([interactionInit(), userInit()])).then(() => {
-    console.log(interactionRouter);
     app.use('/interaction', interactionRouter);
     app.use('/user', userRouter);
 

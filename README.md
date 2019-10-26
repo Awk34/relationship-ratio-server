@@ -43,9 +43,8 @@ const interaction = {
 
 ## API
 
-```javascript
-
 POST '/create'
+```javascript
 request = {
   email: 'email@domain.com',
   password: 'password'
@@ -61,12 +60,14 @@ response = {
     message: 'error message'
   }
 }
+```
 
 POST '/update'
+```javascript
 request = {
   token: '<JWT>',
   partner: 'partner@domain.com',
-  'love-language': null || '<Language>'
+  'love-language': null || LoveLanguage
 }
 
 response = {
@@ -81,6 +82,7 @@ response = {
 }
 
 POST '/login'
+```javascript
 request = {
   email: 'email@domain.com',
   password: 'password'
@@ -96,32 +98,40 @@ response = {
     message: 'error message'
   }
 }
+```
 
 GET '/:email'
+```javascript
 request = { }
 
 response = {
   success: true,
-  result: '<Language>'
+  result: LoveLanguage
 }
+```
 
 GET '/:user_id/:partner'
+```javascript
 request = { }
 
 response = {
   success: true,
   result: interactions[0]
 }
+```
 
 GET '/:user_id/:partner?start=<date>&end=<date>'
+```javascript
 request = { }
 
 response = {
   success: true,
   result: interactions
 }
+```
 
 POST '/:user_id/:partner'
+```javascript
 request = {
   token: '<JWT>',
   good: true || false,
